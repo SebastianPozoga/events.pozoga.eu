@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>wiele przedmiotów od jednego sprzedającego - allezestaw</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <link type="text/css" rel="stylesheet" href="css/main.css" />
+        <script src="js/libs/jquery/jquery.js"></script>
+        <script src="js/libs/underscore.js/underscore.js"></script>
+        <script src="js/main.js"></script>
+    </head>
+    <body>
+        <div id="main-wrapper">
+            <div id="header">
+                <img id="logo" src="img/logo.png" alt="allezestaw">
+            </div>
+        </div>
+        <div id="content">
+            <!-- From tag -->
+            <a name="form"></a>
+            <!-- From -->
+            <div id="form">
+            </div>
+            <script id="formTmp" type="text/template">
+            <div class="row">
+                <div class="cell inputWrapper">
+                    <input placeholder="Jakiego produktu szukasz?" />
+                </div>
+                <div class="cell delButtonWrapper">
+                    <div class="delButton">
+                        -
+                    </div>
+                </div>
+            </div>
+            </script>
+
+            <div id="addButton">
+                Dodaj
+            </div>
+
+            <div id="search">
+                Szukaj
+            </div>
+
+            <!-- -->
+            <a name="list"></a>
+            <!-- From -->
+            <div id="list">
+            </div>
+            <script id="waitingTmp" type="text/template">
+                <div class="waiting">
+                <img src="img/loading.gif"/>
+                </div>
+            </script>
+            <script id="listTmp" type="text/template">
+                <% for(var i = 0; i < groups.length; ++i) { %>
+                    <div class="row">
+                        <div>
+                            <span class="sellerName">
+                                <a href="http://allegro.pl/show_user.php?uid=<%= groups[i].sellerId %>" target="_blank">
+                                    <%= groups[i].sellerName %>
+                                </a>
+                            </span>
+                            <span class="totalPrice">
+                                ( <%= groups[i].totalPrice %> zł )
+                            </span>
+                        </div>
+                        <% for(var i2 = 0; i2 < groups[i2].products.length; ++i2) { %>
+                            <div class="cell">
+                                <a href="http://allegro.pl/show_item.php?item=<%= groups[i].products[i2].id %>" target="_blank">
+                                    <img class="image" src="<%= groups[i].products[i2].imgUrl %>" />
+                                    <div class="name">
+                                        <%= groups[i].products[i2].name %>
+                                    </div>
+                                </a>
+                            </div>
+                        <% } %>
+                    </div>
+                <% } %>
+            </script>
+            <script id="errorTmp" type="text/template">
+                <div class="errorWrapper">
+                    <div class="error">
+                        <div class="big">:-(</div>
+                        <div class="msg">
+                            <b>Przepraszamy</b>. Wystąpił błąd. Aby go zgłosić napisz 
+                            <a href="mailto:sebastian@pozoga.eu">sebastian@pozoga.eu</a>
+                            <br />
+                            Możesz też spróbować ponownie wypełnić <a href="#form">formularz</a>.
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </script>
+        </div>
+        <footer id="footer">
+            Created at <a href="http://events.pozoga.eu/allegro-braincode-mobi-1/">Allegro BrainCode Mobi</a> By 
+            <a href="http://www.linkedin.com/pub/sebastian-po%C5%BCoga/14/51/535">Sebastian Pożoga,</a>
+            <a href="#">Kamil Pawluczuk,</a>
+            <a href="http://www.codergasm.pl/">Bartek Anonim,</a>
+            <a href="#">Mateusz Myszka</a>
+        </footer>
+    </body>
+</html>

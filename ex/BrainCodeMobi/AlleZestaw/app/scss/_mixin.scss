@@ -1,0 +1,128 @@
+
+
+@mixin placeholder-color($color){
+    &::-webkit-input-placeholder { /* WebKit browsers */
+        color:$color;
+    }
+    &:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+        color:$color;
+    }
+    &::-moz-placeholder { /* Mozilla Firefox 19+ */
+        color:$color;
+    }
+    &:-ms-input-placeholder { /* Internet Explorer 10+ */
+        color:$color;
+    }
+}
+
+@mixin button($bgcolor:#333){
+
+    @include border-radius(5px);
+    @include noSelectable;
+
+    background: $bgcolor;
+    padding: 10px;
+    text-align: center;
+    margin:5px 0px;
+    outline: 0;
+    display: inline-block;
+    cursor: pointer;
+
+    &:hover{
+        background: darken($bgcolor, 5%);
+    }
+
+
+    /*background-image: none;
+    -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    background-color: #ff5900;
+    border-color: #ff5900;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.0745098) 0px 1px 1px 0px inset;*/
+}
+
+@mixin border-radius($radius) {
+    -webkit-border-radius: $radius;
+    -moz-border-radius: $radius;
+    -ms-border-radius: $radius;
+    -o-border-radius: $radius;
+    border-radius: $radius;
+}
+
+@mixin main-block($bg, $width) {
+    background-image: url($bg);
+    background-position: center top;
+    background-repeat: repeat;
+    display: block;
+
+    .content{
+        display: block;
+        margin: auto;
+        width: $width
+    }
+}
+
+@mixin table() {
+    display: table;
+    .row{
+        display: table-row;
+    }
+    .cell{
+        display: table-cell;
+        vertical-align: top;
+    }
+}
+
+
+@mixin cbg($url, $h:center, $v:center){
+    background-image: url($url);
+    background-position: $h #{$v};
+    background-repeat: no-repeat;
+}
+
+@mixin hideText{
+    color: rgba(0,0,0,0);
+}
+
+@mixin noSelectable(){
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+@mixin transition{
+    /* Firefox */
+    -moz-transition-property: all;
+    -moz-transition-duration: 1s;
+    /* WebKit */
+    -webkit-transition-property: all;
+    -webkit-transition-duration: 1s;
+    /* Opera */
+    -o-transition-property: all;
+    -o-transition-duration: 1s;
+    /* Standard */
+    transition-property: all;
+    transition-duration: 1s;
+}
+
+@mixin box-sizing($val){
+    -webkit-box-sizing: $val; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: $val;    /* Firefox, other Gecko */
+    box-sizing: $val;         /* Opera/IE 8+ */
+}
+
+@mixin greyscale($scale){
+    filter: grayscale($scale);
+    -webkit-filter: grayscale($scale);
+    -moz-filter: grayscale($scale);
+    -ms-filter: grayscale($scale);
+    -o-filter: grayscale($scale);
+}

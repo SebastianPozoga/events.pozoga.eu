@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Poznań API</title>
+
+    <meta charset='utf-8'>
+    <script src='http://events.pozoga.eu/slides/html5slides/slides.js'></script>
+    <script src="http://code.jquery.com/jquery-1.8.2.js"></script>
+    <script src="js/main.js"></script>
+  </head>
+  
+  <style>
+.intro{
+	background-image:url('images/ratusz.jpg');
+	background-size:100%;
+	background-repeat:no-repeat;
+}
+.intro h1{
+	color:gold;
+	text-shadow: 5px 5px #333;
+	font-size:120px;
+} 
+.zombie1{
+	background-image:url('images/zombie1.jpg');
+	background-size:100% 100%;
+}
+.zombie1 h1{
+	color: #585;
+	text-shadow:4px 4px #fff;
+	font-size:80px;
+} 
+textarea{
+	width:100%;
+	height:300px;
+}
+textarea.c4{
+	height:75px;
+}
+textarea.c2{
+	height:150px;
+}
+.out{
+	width:100%;
+	height:200px;
+	overflow-y: auto;
+}
+.flName{
+	text-transform: capitalize;
+}
+.imgFull img{
+	height:600px;
+	margin:auto 300px;
+}
+  </style>
+
+  <body style='display: none'>
+
+    <section class='slides layout-regular'>
+      
+      <!-- Your slides (<article>s) go here. Delete or comment out the
+           slides below. -->
+        
+        
+      
+      <article class="intro">
+	<h1>Poznań API</h1>
+      </article>
+
+      <article>
+        <h1>
+          Wstęp
+        </h1>
+      </article>
+      
+      <article>
+        <h3>
+          Co to jest?
+        </h3>
+        <p>
+          Poznań API jest najpewniejszym źródłem informacji publicznej. Można powiedieć, że jest tym samym czym BIP dla przeciętnego Kowalskiego.
+        </p>
+        <p>
+          Niewątpliwie jego główna zaletą jest wiarygodność informacji. Czy można znaleźć gdzieś pewniejsze informacje niż w Urzędzie Miasta. 
+        </p>
+      </article>
+      
+      <article>
+        <h3>
+          Kto tego używa?
+        </h3>
+        <p>
+		<iframe style="width:800px;height:550px" src="http://www.youtube.com/embed/dQWFuduvSxg" frameborder="0" allowfullscreen></iframe>
+        </p>
+	<div><a href="https://play.google.com/store/apps/details?id=pl.itiner.grave&hl=pl">Google play</a></div>
+      </article>
+
+      <article>
+        <h1>
+          Wstęp dla programistów 
+        </h1>
+      </article>
+      
+      <article>
+        <h3>
+          Co udostępnia?
+        </h3>
+        <p>
+          <ul>
+		<li>wyszukiwarka adresów i ulic</li>
+		<li>Wyszukiwarka grobów</li>
+		<li>Biletomaty</li>
+		<li>Parkomaty</li>
+		<li>Przystanki MPK</li>
+		<li>Linie MPK</li>
+		<li>Wybory Parlamentarne</li>
+		<li>Wydarzenia</li>
+	  </ul>
+        </p>
+      </article>
+
+      <article>
+        <h3>
+          Wspierane formaty
+        </h3>
+        <p>
+          <ul>
+		<li>GeoJSON</li>
+		<li>GML</li>
+		<li>GeoRSS</li>
+		<li>KML</li>
+	  </ul>
+        </p>
+      </article>
+
+
+      <article class="zombie1">
+        <h1>
+          Zombi - Tutorial
+        </h1>
+      </article>
+
+      <article>
+        <h3>
+          Zombi
+        </h3>
+	<p>
+Czy myślałeś o napisaniu aplikacji  dla zombi? Jak by nie patrzeć to niesłychana nisza rynkowa! Czy sądzisz, że zombie nie chciały by mieć swojego YouTub'a, Facebooka czy Lokalo... ?? 
+        </p>
+	<p>
+My tak myślimy. Dlatego zrobiliśmy tutorial, pokazujący jak pisać aplikacje dla zombi :) 
+        </p>
+      </article>
+
+      <article>
+        <h3>
+          Typ danych
+        </h3>
+	<p>
+Poznań API w swojej strukturze przypomina RESTowe aplikacje. Jednak API nie jest zgodne z REST'owym standardem. Zwracany typ danych definiowany jest przez rozszerzenie pliku a nie przez nagłówek HTTP. 
+        </p>
+	<p>
+Na kolejnej stronie zobaczysz jak pobierać dane. To pierwszy przykład, więc podpowiem, że musisz kliknąć na kawałek kodu aby zobaczyć wynik wykonania.	 
+        </p>
+      </article>
+
+      <article>
+        <h3>
+          Załaduj wszystkie groby
+        </h3>
+        <textarea class="tutScript c2" to="#out" readonly="yes">
+$('#out1').load('www.poznan.pl/featureserver/featureserver.cgi/cmentarze/all.json');
+        </textarea>
+        <textarea class="tutScript c2" to="#out" readonly="yes">
+$('#out1').load('www.poznan.pl/featureserver/featureserver.cgi/cmentarze/all.gml');
+        </textarea>
+	Wynik:
+        <textarea id="out1" class="out"></textarea>
+      </article>
+
+      <article>
+        <h3>
+          Zapytania
+        </h3>
+	<p>
+Pobranie danych podobnie do standardu REST polega na wysłaniu zapytania typu GET. Adres URL określa oczekiwany zasób.
+Najważniejsze adresy:
+<ul>
+	<li><a href="http://www.poznan.pl/featureserver/featureserver.cgi/ulice/all.json">http://www.poznan.pl/featureserver/featureserver.cgi/ulice/all.json</a> - lista ulic </li>
+	<li><a href="http://www.poznan.pl/featureserver/featureserver.cgi/cmentarze/all.json">http://www.poznan.pl/featureserver/featureserver.cgi/cmentarze/all.json</a> - listowane danych wszystkich cmentarzy </li>
+	<li><a href="http://www.poznan.pl/featureserver/featureserver.cgi/groby/all.json">http://www.poznan.pl/featureserver/featureserver.cgi/groby/all.json</a> - listowane danych wszystkich grobów </li>
+	<li><a href="http://www.poznan.pl/featureserver/featureserver.cgi/parkomaty/all.json">http://www.poznan.pl/featureserver/featureserver.cgi/parkomaty/all.json</a> - listowane danych wszystkich parkomatów </li>
+</ul>	 
+        </p>
+      </article>
+
+      <article>
+        <h3>
+          Selekcja danych
+        </h3>
+	<p>
+Dane możemy filtrować podając odpowiednie parametry żądania. Np dodanie "?queryable=cm_name&cm_name=Garnizonowy" spowoduje wybranie cmentarza o nazwie "Garnizonowy". Dodając "?maxfeatures=2" ustawiamy maksymalną ilość wyników na 2.
+        </p>
+      </article>
+
+      <article>
+        <h3>
+          Pobieramy cmentarz po nazwie.
+        </h3>
+        <textarea class="tutScript" to="#out" readonly="yes">
+$('#out2').load('www.poznan.pl/featureserver/featureserver.cgi/cmentarze/all.json?queryable=cm_name&cm_name=Garnizonowy');
+        </textarea>
+	Wynik:
+        <textarea id="out2" class="out"></textarea>
+      </article>
+
+      <article>
+        <h3>
+          Ranking miejscówek dla zombi 
+        </h3>
+	<p>
+	Wiemy już jak pobierać dane. Więc zróbmy z nimi coś :) Piszemy prostą aplikację, która stworzy ranking "miejscówek" dla zombi.
+        </p>
+      </article>
+
+      <article>
+        <h3>
+          Ranking miejscówek
+        </h3>
+        <textarea class="tutScript" to="#out" readonly="yes">
+$.getJSON('www.poznan.pl/featureserver/featureserver.cgi/groby/all.json', function(data) {
+  //Przygotowanie danych
+  var items = data.features;
+
+  //Wskaźnik zajebistości
+  items.forEach(function(e){
+	var rank = 0;
+	if(e.properties.g_field){
+		rank += parseFloat(e.properties.g_field);
+	}
+	if(e.properties.g_size){
+		rank -= parseFloat(e.properties.g_size);
+	}
+	var w = parseFloat(e.properties.g_quarter)
+	if(w){
+		rank += w;
+	}
+	if(e.properties.g_date_burial){
+		var d = new Date(e.properties.g_date_burial);
+		rank += d.getTime()/100000;
+	}
+  	e.rank = rank;
+  });
+
+  //Sortowanie
+  items.sort(function(a,b){
+	return b.rank-a.rank;
+  });
+
+  //Generowanie kodu
+  $('#out3').empty();
+  items.forEach(function(e){
+  	$('#out3').append('<tr><td>'+e.id+'</td><td>'+e.rank+'</td><td>'+e.properties.cm_id+':'+e.properties.g_quarter+'</td><td class="flName">'+e.properties.g_surname_name+'</td></tr>');
+  });
+});
+        </textarea>
+	Wynik:
+        <div class="out">
+		<table>
+		  <thead>
+		    <tr>
+		      <th>ID</th>
+		      <th>Wskaźnik zajebistości</th>
+		      <th>Lokalizacja</th>
+		      <th>Gospodarz</th>
+		    </tr>
+		  </thead>
+		  <tbody id="out3">
+		  </tbody>
+		</table>
+	</div>
+      </article>
+
+      <article>
+	<p>
+        <h1>
+          Akcja
+        </h1>
+	</p>
+	<p>
+	  "Poznań API dla przeglądarek"
+	</p>
+      </article>
+
+      <article>
+        <h3>
+          Oszukaliśmy was
+        </h3>
+	<p>
+To API nie działa poprawnie z aplikacjami internetowymi. Jeśli chciałbyś użyć dobrodziejstw informatora publicznego w przeglądarce internetowej nie dostał byś żadnych danych. Sprawdź i dodaj "http://" w przykładach.
+Wisz co jest nie tak?
+</p><p>
+Przeglądarki internetowe wyposażone są w blokadę. Twoja przeglądarkowa aplikacja może wysyłać informacje jedynie do stron znajdujących się na tej samej domenie. Oczywiście nie mamy Poznań API na naszym serwerze. 
+</p><p>
+Są 2 sposoby żeby rozwiązać ten problem. Mniej elegancki to przenieść obliczenia na serwer lub postawić aplikację prox'ującą. O drugim wspomnę za moment. 
+        </p>
+      </article>
+
+      <article>
+        <h3>
+          Co twierdzą twórcy API.
+        </h3>
+	<p>
+Będziemy wdzięczni, jeżeli poinformujesz nas , które dane należałoby udostępnić poprzez API. Rozważymy Twoją prośbę w następnych jego aktualizacjach. W tej chwili udostępniamy API w wersji BETA, co oznacza że cały czas pracujemy nad ulepszeniem interfejsu. O wszelkich zmianach będziemy informowali na bieżąco. Zespół eGovernment PCSS egov@man.poznan.pl
+        </p>
+      </article>
+
+      <article>
+        <h3>
+          Niech nam pomogą. 
+        </h3>
+	<p>
+Drugie rozwiązanie to zadeklarowanie swobodnego dostępu do zasobów. Można to zrobić dodając "<b>Access-Control-Allow-Origin: *</b>" do nagłówka HTTP. Niestety mogą zrobić to tylko twórcy API. Dlatego proszę was o napisanie do nich żeby zwrócić uwagę na problem. 
+        </p>
+	<p><a href="mailto:egov@man.poznan.pl?subject=Dodajcie Cross-origin resource sharing do Poznań API">Kliknij i napisz</a>
+      </article>
+
+      <article>
+        <h1>
+          Nasza aplikacja na Androida
+        </h1>
+      </article>
+
+      <article class="imgFull">
+	<img src="images/app/1.png" />
+      </article>
+
+      <article class="imgFull">
+	<img src="images/app/2a.png" />
+      </article>
+
+      <article class="imgFull">
+	<img src="images/app/2b.png" />
+      </article>
+
+      <article class="imgFull">
+	<img src="images/app/2c.png" />
+      </article>
+
+      <article>
+        <h3>
+          Twórcy
+        </h3>
+	<p>
+		Sebastian Pożoga
+        </p>
+	<p>
+		Monika Rotasik
+        </p>
+	<p>
+		Grzegorz Grzelachowski
+        </p>
+      </article>
+
+      <article>
+        <h1>
+          Dzięki za uwagę :)
+        </h1>
+      </article>
+
+
+  </body>
+</html>

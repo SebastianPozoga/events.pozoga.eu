@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>PhantomJS, Meet.JS</title>
+
+        <meta charset='utf-8'>
+        <script src='http://events.pozoga.eu/slides/html5slides/slides.js'></script>
+        <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js'></script>
+        <script>
+            function print() {
+                $("body").css("background", "none");
+                $("article").removeClass("far-past");
+                $("article").removeClass("past");
+                $("article").removeClass("current");
+                $("article").removeClass("next");
+                $("article").removeClass("far-next");
+                $("*.to-build").removeClass("to-build");
+                $("article").css("display", "block");
+                $("article").css("top", "0");
+                $("article").css("left", "0");
+                $("article").css("margin", "0 0 9em 0");
+                $("article").css("position", "relative");
+            }
+            /*$(document).ready(function(){
+                print();
+            });*/
+        </script>
+        <style>
+            /* Your individual styles here, or just use inline styles if that’s
+               what you want. */
+            .biglogo {
+                background: url("img/background.jpg") no-repeat;
+                background-position:center; 
+                background-size:1000px;
+            }
+            .biglogo img {
+                display:block;
+                margin:auto;
+                max-height:650px;
+                max-width:650px;
+            }
+            .alert {
+                color:#000;
+                display:block;
+                margin:auto;
+                background-image:url('img/alert.png');
+                -webkit-border-radius: 10px;
+                -moz-border-radius: 10px;
+                border-radius: 10px;
+                border: #a11 solid 1px;
+                background-repeat:no-repeat;
+                background-color: #d33;
+                background-position:left center;
+                min-height: 40px;
+                padding:10px 64px;
+            }
+            .alert a{
+                color:inherit !important;
+                text-decoration:none;
+                font-weight:bold;
+            }
+        </style>
+    </head>
+
+
+
+    <body style='display: none'>
+
+        <section class='slides layout-regular'>
+
+            <!-- Your slides (<article>s) go here. Delete or comment out the
+                 slides below. -->
+
+
+
+            <article class='biglogo'>
+                <img src="img/phantomjs.png" />
+            </article>
+
+            <article>
+                <h1>
+                    Sebastian Pożoga
+                    <br>
+                    meet.js
+                </h1>
+                <p>
+                    https://github.com/SebastianPozoga
+                    <br/>
+                    http://slides.pozoga.eu/PhantomJS
+                    <br/>
+                    sebastian@pozoga.eu 
+                    <br>
+                    15.06.2012
+                </p>
+            </article>
+
+            <article>
+                <h1>
+                    What is PhantomJS?
+                </h1>
+                <!--<p>
+                  <cite>"PhantomJS is a headless WebKit with JavaScript API. It has fast and native support for various web standards: DOM handling, CSS selector, JSON, Canvas, and SVG. PhantomJS is created by Ariya Hidayat." - PhantomJS.org</cite>
+                </p>-->
+            </article>
+
+            <!--<article>
+                <h1>
+                    What is unsupported?
+                </h1>
+                <ul>
+                    <li>csstransforms3d</li>
+                    <li>webgl</li>
+                    <li>geolocation</li>
+                    <li>indexeddb</li>
+                    <li>localstorage</li>
+                    <li>sessionstorage</li>
+                </ul>
+            </article>-->
+
+
+
+            <article>
+                <h1>
+                    Say Hello ;)
+                </h1>
+            </article>
+
+            <article>
+                <h3>
+                    Hello world - Console
+                </h3>
+                <pre>
+console.log('Hello, world!');
+phantom.exit();
+                </pre>
+                <img src="img/helloWorld.png" height="400"/>
+            </article>
+
+            <article>
+                <h3>
+                    Hello world - Rasterized
+                </h3>
+                <pre>
+var page = require('webpage').create();
+page.viewportSize = { width: 300, height: 300 };
+page.open("http://google.pl", function (status) {
+    if (status !== 'success') {
+        console.log('Unable to load the address!');
+    } else {
+        window.setTimeout(function () {
+            //Hello, PNG
+            page.render("out.png");
+            //Hello, PDF
+            page.render("out.pdf");
+            //Close App
+            phantom.exit();
+        }, 200);
+    }
+});
+                </pre>
+            </article>
+
+            <article>
+                <h3>
+                    Hello world - Rasterized #2
+                </h3>
+                <pre>
+page.evaluate(function() {
+    document.body.bgColor = 'white';
+});
+page.render("out.jpeg");
+page.render("out.jpg"); //OK, too
+                </pre>
+                <img src="img/rasterized2.jpg" />
+                <img src="img/rasterized1.jpg" />
+            </article>
+
+            <article>
+                <h3>
+                    Danger#1 Javascript is asynchronous
+                </h3>
+                <pre>
+var page = require('webpage').create();
+page.onConsoleMessage = function (msg) {
+    console.log('Page title is ' + msg);
+};
+page.open("http://google.pl" , function (status) {
+    page.evaluate(function () {
+        console.log(document.title);
+    });
+});
+phantom.exit();
+                </pre>
+                <p class="alert">
+                    Don't use the code!!! It is only example and doesn't work properly.
+                </p>
+            </article>
+
+            <article>
+                <h3>
+                    Danger#2 Namespaces
+                </h3>
+                <pre>
+page.open("http://google.pl" , function (status) {
+    var i = 0;
+    page.evaluate(function () {
+        i++;
+    });
+    console.log(i);
+    phantom.exit();
+});
+                </pre>
+                <p class="alert">
+                    The code too.
+                </p>
+            </article>
+
+            <article>
+                <h3>
+                    Hello world - Webserver
+                </h3>
+                <pre>
+var server, service;
+var count=0;
+
+server = require('webserver').create();
+
+service = server.listen(8080, function (request, response) {
+    response.statusCode = 200;
+    count++;
+    response.write('<html><body>Hello! We have '+count+' visits.</body></html>');
+    response.close();
+});
+                </pre>
+            </article>
+
+            <!--<article>
+                <h1>
+                    Webserver
+                </h1>
+            </article>
+
+            <article>
+                <h3>
+                    About
+                </h3>
+                <ul>Note 1: This WebServer module is intended for ease of communication between PhantomJS scripts and the outside world. It is not recommended to use it as a general production server.</ul>
+                <ul>Note 2: The API for the module is still very experimental. Depending on the needs, the functionalities and the corresponding API will be expanded in the next versions. </ul>
+                <p>From <a href="http://code.google.com/p/phantomjs/wiki/Interface">http://code.google.com/p/phantomjs/wiki/Interface</a></p>
+            </article>-->
+
+            <article>
+                <h3>
+                    Binary data
+                </h3>
+                <pre>
+page.render(output);
+response.statusCode = 200;
+response.headers['Content-Type'] = 'application/octet-stream';
+response.write( fs.read(output, 'b'), 'b' );
+                </pre>
+                <p class="alert">
+                    Doesn't work. <a href="http://code.google.com/p/phantomjs/issues/detail?id=505">Bug</a>.
+                </p>
+            </article>
+
+            <article>
+                <h1>
+                    <a href="https://github.com/SebastianPozoga/PostcardPrinter-PhantomJS">Demo #1</a>
+                </h1>
+                <p>Webapp - Postcard generator</p>
+                <p>(PHP/JavaScript/HTML/PhantomJS)</p>
+            </article>
+
+            <article>
+                <h4>
+                    Index page
+                </h4>
+                <pre>
+&lt;form id="printForm" method="POST" action="print.php"&gt;
+    &lt;input id="title" name="title" value="Title" /&gt;
+    &lt;select name="picture" id="picture"&gt;
+        &lt;option value="1"&gt;Meet.js 1&lt;/option&gt;
+        &lt;option value="2"&gt;Meet.js 2&lt;/option&gt;
+        &lt;option value="3"&gt;Meet.js 3&lt;/option&gt;
+        &lt;option value="4"&gt;Meet.js 4&lt;/option&gt;
+        &lt;option value="5"&gt;Meet.js 5&lt;/option&gt;
+        &lt;option value="6"&gt;Meet.js 6&lt;/option&gt;
+    &lt;/select&gt; 
+    &lt;textarea id="content" name="content" class="mceSimple"&gt;
+        My card text
+    &lt;/textarea&gt;
+    &lt;input type="submit" value="Print" /&gt;
+&lt;/form&gt;
+                </pre>
+            </article>
+            
+            <article>
+                <h3>PHP Server - Validate</h3>
+                <pre>
+$title = htmlspecialchars($_POST['title']);
+$content = strip_tags($_POST['content'], "&lt;br>&lt;br/>&lt;p>&lt;b>&lt;i>");
+$picture = (int) $_POST['picture'];
+                </pre>
+            </article>
+            
+            <article>
+                <h3>PHP Server - Proxy</h3>
+                <pre>
+$filename = sendPOST('http://localhost:9696', $data);
+header('Content-Description: File Transfer');
+header('Content-Type: application/octet-stream');
+header('Content-Disposition: attachment; filename='
+    .basename($filename));
+header('Content-Transfer-Encoding: binary');
+header('Expires: 0');
+header('Cache-Control: must-revalidate, 
+    post-check=0, pre-check=0');
+header('Pragma: public');
+header('Content-Type: image/png');
+header('Content-Length: ' . filesize($filename));
+ob_clean();
+flush();
+readfile($filename);
+unlink($filename);
+                </pre>
+            </article>
+            
+            <article>
+                <h3>PhantomJS Server</h3>
+                <pre>
+page.open("index.html", function (status) {
+    if (status !== 'success') {
+        console.log('Unable to load the address!');
+    } else {
+        window.setTimeout(function () {
+            evaluate(page, function (post) {
+                $("#form").remove();
+                $("#vTitle").html(post.title);
+                $("#vContent").html(post.content);
+                $('#view').css('background-image',
+                    'url("photo/'+post.picture+'.jpg")');
+            },request.post);
+            page.render(filename);
+        }, 200);
+    }
+});
+                </pre>
+            </article>
+            
+            <article>
+                <h3>Result</h3>
+                <img src="img/Postcard.png" width="500" />
+            </article>
+            
+            <article>
+                <h1>
+                    <a href="https://github.com/SebastianPozoga/BreakFormSecurity-PhantomJS">Demo #2</a>
+                </h1>
+                <p>Simple script write to break javascript form security</p>
+                <p>(Javascript/HTML/PhantomJS)</p>
+            </article>
+            
+            <article>
+                <h3>Script</h3>
+                <pre>
+&lt;div id="formContainer">
+    &lt;h1>Get secret code&lt;/h1>
+    form protecte with js
+    &lt;form id="securityForm" method="POST"
+        action="#URLforStupidBoots;)">
+        &lt;input id="submit" type="submit" value="GET" />
+    &lt;/form>
+&lt;/div>
+&lt;div id="output">output for code&lt;/div>
+                </pre>
+            </article>
+
+            <article>
+                <h3>Page security script</h3>
+                <pre>
+&lt;script type="text/javascript">
+    $(document).ready(function() { 
+        $('#submit').click(function() {
+            $('#formContainer').remove();
+            $('#output').html("&lt;h1>My secret code&lt;/h1>
+                &lt;div class='code'>1AS2221DDS132DE&lt;/div");
+            return false;
+        });
+    });
+&lt;/script>
+                </pre>
+            </article>
+            
+            <article>
+                <h3>Hack script</h3>
+                <pre>
+var page = require('webpage').create();
+page.open("protectedForm.html", function (status) {
+    if (status !== 'success') {
+        console.log('Unable to load the address!');
+    } else {
+        var code = page.evaluate(function() {
+                $('#submit').click();
+                return $('#output .code').html();
+        });
+        console.log(code);
+        phantom.exit();
+    }
+});
+                </pre>
+            </article>
+            
+            <article>
+                <h1>
+                    <a href="https://github.com/SebastianPozoga/WebsiteToRssFeed-PhantomJS">Demo #3</a>
+                </h1>
+                <p>Bankier.pl to RSS Feed</p>
+                <p>Can you control your investments better? Can you have more news and information? Can you save your time?</p>
+                <p>(RSS/PhantomJS)</p>
+            </article>
+
+            <article>
+                <h3>Load data</h3>
+                <pre>
+var data = page.evaluate(function() {
+    var feed = new Object();
+    feed.title=document.title;
+    feed.description=document.description;
+    feed.link=document.URL;
+    feed.items = new Array();
+    var list = document.querySelectorAll('html body div#bn_wrapper 
+                        div#bn_content table tbody tr td table 
+                         tbodytr td a.articleTitleLink');
+    for(var i=0; i&lt;list.length; i++) {
+        var item = new Object();
+        item.title = list[i].innerHTML;
+        item.link = list[i].href;
+        feed.items.push(item);
+    }
+    return feed;
+});
+                </pre>
+            </article>
+            
+            <article>
+                <h3>Output RSS</h3>
+                <pre>
+function toRss(feed){
+    var response = '&lt;?xml version="1.0" encoding="UTF-8" ?>\n
+                    &lt;rss version="2.0">\n&lt;channel>\n';
+    response += toRssItem(feed);
+    if(feed.items){
+        for(item in feed.items){
+            response += '&lt;item>\n';
+            response += toRssItem(feed.items[item]);
+            response += '&lt;/item>\n';	
+        }
+    }
+    response += '&lt;/channel>\n&lt;/rss>';
+    return response;
+}
+                </pre>
+            </article>
+            
+            <article>
+                <h3>Output RSS item</h3>
+                <pre>
+unction toRssItem(item){
+    var xml = '';
+    if(item.title){
+        xml+='&lt;title>'+item.title+'&lt;/title>\n';
+    }
+    if(item.description){
+        xml+='&lt;description>'+item.description+'&lt;/description>\n';
+    }
+    if(item.link){
+        xml+='&lt;link>'+item.link+'&lt;/link>\n';
+    }
+    return xml;
+}
+                </pre>
+            </article>
+            
+            <article>
+                <h3>Result</h3>
+                <img src="img/BankierFeed.png" width="800" />
+            </article>
+            
+            <article>
+                <h3>Work with Thunderbird and other RSS Client</h3>
+                <img src="img/FeedClient.png" width="800" />
+            </article>
+            
+            <article class='smaller'>
+                <h1>
+                    Thank you for your attention ;)
+                </h1>
+                <p> Questions?</p>
+            </article>
+
+            <article class='smaller'>
+                <h3>
+                    Links
+                </h3>
+                <ul>
+                    <li><a href="http://phantomjs.org/">http://phantomjs.org/</a></li>
+                    <li><a href="http://slides.wikia.net/akai/20120508/phantomjs/">http://slides.wikia.net/akai/20120508/phantomjs/#1</a></li>
+                    <li><a href="http://www.commonjs.org/">http://www.commonjs.org/</a></li>
+                    <li><a href="http://www.commonjs.org/">http://dosowisko.net/phantomjs</a></li>
+                </ul>
+            </article>
+
+
+        </section>
+
+    </body>
+</html>
+

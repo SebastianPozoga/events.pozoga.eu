@@ -1,0 +1,327 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Point Position Detector</title>
+    <meta charset='utf-8'>
+	<meta name="author" content="Sebastian Pożoga - https://www.facebook.com/sebastian.pozoga">
+    <script src='http://events.pozoga.eu/slides/html5slides/slides.js'></script>
+	<style>
+		.intro{
+			background-image:url('images/bg.png');
+		}
+		#logo{
+			position:absolute;
+			top:20px;
+			left:20px;
+			width:390px;
+		}
+		.intro h1{
+			position:absolute;
+			top:190px;
+			left:200px;
+			line-height: 1.2em;
+			color:#111;
+			text-shadow: 2px 2px #ccc;
+			font-size:100px;
+		}
+	</style>
+  </head>
+  
+
+  <body style='display: none'>
+
+    <section class='slides layout-regular'>
+      
+      <article class="intro">
+		<img id="logo" src="images/logo.png" />
+		<h1>Point Position Detector</h1>
+      </article>
+
+      <article>
+        <h1>
+          Introduction
+        </h1>
+      </article>
+      
+      <article>
+        <h3>
+			Problem
+        </h3>
+        <p>
+			We have a fortress, mines and other metal things. The fortress is big construction build on convex polygon. We know that we don't have mines in the fortress. The remaining area is desert. 
+			A new king of Komunistan has a system of satellites. The system prepare a map of the metal objects.
+			We must write apliaction detected a point is mine (outside fortress) or other metal object (on fortress).
+        </p>
+      </article>
+      
+      <article>
+        <h3>
+			Solution
+        </h3>
+        <p>
+			We write three algorithms to detect point position. Make performance test. Choose the best one :) 
+        </p>
+      </article>
+	  
+      <article>
+        <h1>
+          Algorithm A
+        </h1>
+		<p>Detect by triangles</p>
+      </article>
+
+      <article>
+        <h3>
+			Description
+        </h3>
+        <p>
+			<ul>
+				<li>Check up on the point is on the circuit (if that is true, return "O").</li>
+				<li>Divide the polygon into triangles.</li>
+				<li>Detect UV position of tested point. If is inside return "P".</li>
+				<li>If any triangle does not contain the point, retrun "N"</li>
+			</ul>
+        </p>
+      </article>
+	  
+      <article>
+        <h1>
+          Algorithm B
+        </h1>
+		<p>Detect by elimination areas</p>
+      </article>
+
+      <article>
+        <h3>
+			Description
+        </h3>
+        <p>
+			<ul>
+				<li>Create vectors according to the clockwise. </li>
+				<li>Test the point side by vector. If is on left is outside (return "N"). If is on vector return "O". </li>
+				<li>If we tested all vectors and is not outside and circuit, the point is inside (return "P").</li>
+			</ul>
+        </p>
+      </article>
+	  
+      <article>
+        <h1>
+          Algorithm C
+        </h1>
+		<p>Detect by distance</p>
+      </article>
+
+      <article>
+        <h3>
+			Description
+        </h3>
+        <p>
+			<ul>
+				<li>Select circuit vector between polygon center and the tested point.</li>
+				<li>Create a line passing through the center and the test point.</li>
+				<li>Calculate the intersection of the circuit and line.</li>
+				<li>If test point distance is lowest than the circuit point distance, the point is on polygon. If the distances are equals, the point is on circuit. Otherwise is outside.</li>
+			</ul>
+        </p>
+      </article>
+      
+      <article>
+        <h1>
+          Code
+        </h1>
+      </article>
+	  
+      <article>
+        <h3>
+			Algorithm A
+        </h3>
+        <p>
+			<pre>
+char goA(int n, struct point *p, struct point tP){
+    if( isOnCircuit(n, p, tP) ){
+        return ON_CIRCUIT;
+    }else if( isOnPolygonByTriang(n, p,tP) ){
+        return ON_POLYGON;
+    }else{
+        return NO_ON;
+    }
+}
+			</pre>
+        </p>
+      </article>
+	  
+      <article>
+        <h3>
+			Algorithm B
+        </h3>
+        <p>
+			<pre>
+//...
+for(i=1;i&lt;n;++i){
+    w = pSide(p[i-1], p[i], tP);
+    if(w!=RIGHT){
+        if(w==LEFT){
+            return NO_ON;
+        }else{
+            if(isBettwen(p[i-1], p[i], tP)){
+                return ON_CIRCUIT;
+            }
+            return NO_ON;
+        }
+    }
+}
+//...
+			</pre>
+        </p>
+      </article>
+	  	  
+      <article>
+        <h3>
+			Algorithm C
+        </h3>
+        <p>
+			<pre>
+//...
+for(i=1;i&lt;n;++i){
+    p1.x = p[i-1].x-c.x;
+    p1.y = p[i-1].y-c.y;
+    p2.x = p[i].x-c.x;
+    p2.y = p[i].y-c.y;
+    char r = _goC_Test(pv, p1, p2);
+    if(r!=NaN){
+        return r;
+    }
+}
+//...
+			</pre>
+        </p>
+      </article>
+	  
+      <article>
+        <h1>
+          Test result
+        </h1>
+      </article>
+	  
+      <article>
+        <h3>
+			Introduction
+        </h3>
+        <p>
+			To test results we use dedicated test data generator. It is special code generated convex polygon, create random testing data and produce *.in *.out files. 
+			Produced test are compatible with OI Tester.
+        </p>
+      </article>
+	  
+      <article>
+        <h3>
+			Test result
+        </h3>
+        <p>
+			<img src="images/oiEnd.png" />
+        </p>
+      </article>
+	  
+      <article>
+        <h1>
+			Performance Testing
+        </h1>
+      </article>
+	  
+      <article>
+        <h3>
+			Introduction
+        </h3>
+        <p>
+			We write simple application to test performance of algorithms A, B and C. The application produce test random data. 
+			Testing our algorithms with the data and measure time. Output is save to file out.txt 
+        </p>
+      </article>
+	  
+      <article>
+        <h3>
+			Produce test random data
+        </h3>
+        <p>
+			<pre>
+    tests = malloc(sizeof(struct point)*l);
+    int rmax = 2*l;
+    for(i=0;i&lt;l;i++){
+        tests[i].x = (rand() % rmax) - l;
+        tests[i].y = (rand() % rmax) - l;
+    }
+			</pre>
+        </p>
+      </article>
+	  
+      <article>
+        <h3>
+			Measure time
+        </h3>
+        <p>
+			<pre>
+		//... A & B
+		// For C:
+        cB = clock();
+        for(i2=0;i2&lt;l;i2++){
+            for(i3=0;i3&lt;t;i3++){
+                goC(n, p, tP);
+            }
+        }
+        tC = clock() - cB;
+        double tsC =(double)tC/(double)CLOCKS_PER_SEC;
+        printf("%d %f %f %f \n", n, tsA, tsB, tsC);
+        fprintf(pFile, "%d %f %f %f \n", n, tsA, tsB, tsC);
+			</pre>
+        </p>
+      </article>
+	  
+      <article>
+        <h3>
+			Result
+        </h3>
+        <p>
+			<img src="images/performanceTests.png" />
+        </p>
+      </article>
+	  
+      <article>
+        <h3>
+			Summary
+        </h3>
+        <p>
+			A algorithm is the slowest. Algorithms B and C have similar complexity.
+        </p>
+      </article>
+	  
+	  
+	  
+	  <!-- END -->
+	  
+      <article>
+        <h1>
+          Author<br/>
+		  Sebastian Pożoga
+        </h1>
+		<p>
+        </p>
+      </article>
+
+      <article>
+        <h1>
+          Code
+        </h1>
+		<p>
+		  <a href="SebastianPozoga-Fig.zip">Download</a>
+		</p>
+      </article>
+	  
+      <article>
+        <h1>
+          That is all :]
+        </h1>
+      </article>
+
+
+  </body>
+</html>
