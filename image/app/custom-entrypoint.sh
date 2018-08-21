@@ -8,6 +8,16 @@ if [ ! -f "/app/wp-config.php" ]; then
   wp config create --dbhost="$DB_HOST:$DB_PORT" --dbname=$DB_NAME --dbuser=$DB_USER --dbpass=$DB_PASS --locale=ro_RO
 fi
 
+if [ ! -z "$DB_SNAPSHOT" ] && [ ! -f "$DB_SNAPSHOT" ]; then
+  echo "Load $DB_SNAPSHOT snapshot... skiped" 1>&2
+  echo "Path $DB_SNAPSHOT is not a file" 1>&2
+fi
+
+if [ ! -z "$DB_SNAPSHOT" ] && [ -f "$DB_SNAPSHOT" ]; then
+  echo "Load $DB_SNAPSHOT snapshot"
+  wp db drop --yes
+  wp db import $DB_SNAPSHOT
+fi
 
 if $(wp core is-installed); then
   wp user update $WP_EMAIL --user_pass=$WP_PASS
