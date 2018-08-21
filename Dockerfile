@@ -1,4 +1,5 @@
 FROM wordpress:cli-2
+EXPOSE 80
 USER 0
 
 # install wordpress

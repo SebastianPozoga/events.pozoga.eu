@@ -41,4 +41,4 @@ fi
 wp plugin activate jetpack wp-super-cache akismet
 
 # run php server
-wp server --host=0.0.0.0 --port=8080 --docroot=/app
+wp server --host=0.0.0.0 --port=80 --docroot=/app

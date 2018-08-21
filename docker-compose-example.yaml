@@ -22,7 +22,6 @@ services:
       - "/dockerdata/sebastianpozoga/events.pozoga.eu/uploads:/var/www/html/wp-content/uploads"
     ports:
       - 80:80
-      - 8080:8080
   db:
     image: mariadb
     restart: always
