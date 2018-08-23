@@ -15,7 +15,7 @@ fi
 
 if [ ! -z "$DB_SNAPSHOT" ] && [ -f "$DB_SNAPSHOT" ]; then
   echo "Load $DB_SNAPSHOT snapshot"
-  wp db drop --yes
+  wp db drop --yes ||:
   wp db import $DB_SNAPSHOT
 fi
 
