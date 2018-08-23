@@ -30,11 +30,62 @@ RUN \
   cp -r /root/image/* / && \
   rm -rf /root/image
 
+# Add main packages
+RUN apk update && apk upgrade && apk add \
+  bash apache2 php7 php7-apache2 curl ca-certificates openssl openssh tzdata openntpd
+
+# Install php extensions
+RUN apk add \
+  php7-phar \
+  php7-json \
+  php7-iconv \
+  php7-openssl \
+	php7-ftp \
+	php7-xdebug \
+	php7-mcrypt \
+	php7-mbstring \
+	php7-soap \
+	php7-gmp \
+	php7-pdo_odbc \
+	php7-dom \
+	php7-pdo \
+	php7-zip \
+	php7-mysqli \
+	php7-sqlite3 \
+	php7-pdo_pgsql \
+	php7-bcmath \
+	php7-gd \
+	php7-odbc \
+	php7-pdo_mysql \
+	php7-pdo_sqlite \
+	php7-gettext \
+	php7-xmlreader \
+	php7-xmlwriter \
+	php7-tokenizer \
+	php7-xmlrpc \
+	php7-bz2 \
+	php7-pdo_dblib \
+	php7-curl \
+	php7-ctype \
+	php7-session \
+	php7-redis \
+	php7-exif
+
+# configure apache2
+RUN sed -i 's#^DocumentRoot ".*#DocumentRoot "/app"#g' /etc/apache2/httpd.conf && \
+  sed -i 's#AllowOverride [Nn]one#AllowOverride All#' /etc/apache2/httpd.conf && \
+  sed -i 's/^#ServerName.*/ServerName webproxy/' /etc/apache2/httpd.conf && \
+  sed -i 's#/var/www/localhost/htdocs#/app#g' /etc/apache2/httpd.conf && \
+  sed -i 's/^User.*/User www-data/' /etc/apache2/httpd.conf && \
+  sed -i 's/^Group.*/Group www-data/' /etc/apache2/httpd.conf && \
+  sed -i 's#/var/log/apache2/#/dev/stdout#g' /etc/apache2/httpd.conf && \
+  mkdir -p /run/apache2/ && \
+  rm -rf /var/cache/apk/*
+
 # permissions
-RUN chmod +x /app/custom-entrypoint.sh
+RUN chmod +x /entrypoint/custom-entrypoint.sh
 RUN chown -R www-data:www-data /app
 
 # entrypoint
-USER www-data
 ENTRYPOINT ["/bin/sh"]
-CMD ["/app/custom-entrypoint.sh"]
+CMD ["/entrypoint/custom-entrypoint.sh"]
