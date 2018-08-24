@@ -79,6 +79,7 @@ RUN sed -i 's#^DocumentRoot ".*#DocumentRoot "/app"#g' /etc/apache2/httpd.conf &
   sed -i 's/^User.*/User www-data/' /etc/apache2/httpd.conf && \
   sed -i 's/^Group.*/Group www-data/' /etc/apache2/httpd.conf && \
   sed -i 's#/var/log/apache2/#/dev/stdout#g' /etc/apache2/httpd.conf && \
+  sed -i 's/#LoadModule rewrite_module/LoadModule rewrite_module/g' /etc/apache2/httpd.conf && \
   mkdir -p /run/apache2/ && \
   rm -rf /var/cache/apk/*
 
