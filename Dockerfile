@@ -83,6 +83,9 @@ RUN sed -i 's#^DocumentRoot ".*#DocumentRoot "/app"#g' /etc/apache2/httpd.conf &
   mkdir -p /run/apache2/ && \
   rm -rf /var/cache/apk/*
 
+# install system packages
+RUN apk add sudo
+
 # permissions
 RUN chmod +x /entrypoint/custom-entrypoint.sh
 RUN chown -R www-data:www-data /app

@@ -5,7 +5,7 @@ set -e
 sh /entrypoint/wait-for-db.sh $DB_HOST $DB_PORT
 
 # prepare database & wordpress app
-sh -x /entrypoint/prepare-www.sh
+sudo -u www-data -- sh -x /entrypoint/prepare-www.sh
 
 # run php server
 # httpd -D FOREGROUND
