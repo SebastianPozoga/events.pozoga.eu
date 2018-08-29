@@ -19,9 +19,18 @@ RUN wget https://downloads.wordpress.org/plugin/jetpack.6.4.2.zip && \
   mv jetpack /app/wp-content/plugins/jetpack && \
   rm jetpack.6.4.2.zip
 
-RUN wget https://downloads.wordpress.org/plugin/wp-super-cache.1.6.3.zip && \
-  unzip wp-super-cache.1.6.3.zip -d /app/wp-content/plugins && \
-  rm -f wp-super-cache.1.6.3.zip
+RUN wget https://downloads.wordpress.org/plugin/wp-super-cache.1.6.4.zip && \
+  unzip wp-super-cache.1.6.4.zip -d /app/wp-content/plugins && \
+  rm -f wp-super-cache.1.6.4.zip
+
+RUN wget https://downloads.wordpress.org/plugin/insert-headers-and-footers.1.4.3.zip && \
+  unzip insert-headers-and-footers.1.4.3.zip -d /app/wp-content/plugins && \
+  rm -f insert-headers-and-footers.1.4.3.zip
+
+RUN wget https://downloads.wordpress.org/plugin/akismet.4.0.8.zip && \
+  rm -rf /app/wp-content/plugins/akismet && \
+  unzip akismet.4.0.8.zip -d /app/wp-content/plugins && \
+  rm -f akismet.4.0.8.zip
 
 # add static files
 ADD image /root/image
