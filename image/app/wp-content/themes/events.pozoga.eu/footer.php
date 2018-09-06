@@ -37,12 +37,5 @@
 
 <?php wp_footer(); ?>
 
-<!-- Prevent open site in iframes -->
-<script type="text/javascript">
-if ( window.self !== window.top ) {
-    window.top.location.href=window.location.href;
-}
-</script>
-
 </body>
 </html>

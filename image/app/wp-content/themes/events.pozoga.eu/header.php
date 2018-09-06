@@ -22,6 +22,14 @@
 </head>
 
 <body <?php body_class(); ?>>
+
+<!-- Prevent open site in iframes -->
+<script type="text/javascript">
+if ( window.self !== window.top ) {
+		window.top.location.replace(window.location.href);
+}
+</script>
+
 <div id="page" class="hfeed site">
 	<a class="skip-link screen-reader-text" href="#content"><?php _e( 'Skip to content', 'twentyfifteen' ); ?></a>
 
