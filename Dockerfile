@@ -13,11 +13,11 @@ RUN cd ~ && \
 WORKDIR /app
 
 # install plugins
-RUN wget https://downloads.wordpress.org/plugin/jetpack.6.4.2.zip && \
-  unzip jetpack.6.4.2.zip && \
+RUN wget https://downloads.wordpress.org/plugin/jetpack.6.5.zip && \
+  unzip jetpack.6.5.zip && \
   mkdir -p /app/wp-content/plugins && \
   mv jetpack /app/wp-content/plugins/jetpack && \
-  rm jetpack.6.4.2.zip
+  rm jetpack.6.5.zip
 
 RUN wget https://downloads.wordpress.org/plugin/wp-super-cache.1.6.4.zip && \
   unzip wp-super-cache.1.6.4.zip -d /app/wp-content/plugins && \
