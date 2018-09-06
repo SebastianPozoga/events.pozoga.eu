@@ -26,8 +26,9 @@
 
 <!-- Prevent open site in iframes -->
 <script type="text/javascript">
-if ( window.self !== window.top ) {
-		window.top.location.replace(window.location.href);
+if( (self.top && !(self.top===self))
+    &&(self.top.frames.length!=0)){
+    self.top.location=document.location
 }
 </script>
 
