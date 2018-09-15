@@ -4,7 +4,7 @@ cd /app
 
 # Prepare wordpress
 if [ ! -f "/app/wp-config.php" ]; then
-  wp config create --dbhost="$DB_HOST:$DB_PORT" --dbname=$DB_NAME --dbuser=$DB_USER --dbpass=$DB_PASS --locale=ro_RO
+  wp config create --dbhost="$DB_HOST:$DB_PORT" --dbname=$DB_NAME --dbuser=$DB_USER --dbpass=$DB_PASS --locale=pl_PL
 fi
 
 if [ ! -z "$DB_SNAPSHOT" ] && [ ! -f "$DB_SNAPSHOT" ]; then
