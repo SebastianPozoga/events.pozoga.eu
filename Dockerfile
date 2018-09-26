@@ -1,5 +1,5 @@
 FROM wordpress:cli-2
-EXPOSE 80
+EXPOSE 80 443
 USER 0
 
 # install wordpress
@@ -41,7 +41,7 @@ RUN \
 
 # Add main packages
 RUN apk update && apk upgrade && apk add \
-  bash apache2 php7 php7-apache2 curl ca-certificates openssl openssh tzdata openntpd
+  bash apache2  apache2-ssl php7 php7-apache2 curl ca-certificates openssl openssh tzdata openntpd
 
 # Install php extensions
 RUN apk add \
