@@ -37,5 +37,8 @@
 
 <?php wp_footer(); ?>
 
+<!-- addthis.com web plugins -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5bb217b59aee8242"></script>
+
 </body>
 </html>
