@@ -13,12 +13,6 @@ RUN cd ~ && \
 WORKDIR /app
 
 # install plugins
-RUN wget https://downloads.wordpress.org/plugin/jetpack.6.5.zip && \
-  unzip jetpack.6.5.zip && \
-  mkdir -p /app/wp-content/plugins && \
-  mv jetpack /app/wp-content/plugins/jetpack && \
-  rm jetpack.6.5.zip
-
 RUN wget https://downloads.wordpress.org/plugin/wp-super-cache.1.6.4.zip && \
   unzip wp-super-cache.1.6.4.zip -d /app/wp-content/plugins && \
   rm -f wp-super-cache.1.6.4.zip
@@ -91,7 +85,7 @@ RUN sed -i 's#^DocumentRoot ".*#DocumentRoot "/app"#g' /etc/apache2/httpd.conf &
   sed -i 's/#LoadModule rewrite_module/LoadModule rewrite_module/g' /etc/apache2/httpd.conf
 
 RUN sed -i 's#^DocumentRoot ".*#DocumentRoot "/app"#g' /etc/apache2/conf.d/ssl.conf && \
-  sed -i 's/#LoadModule rewrite_module/LoadModule rewrite_module/g' /etc/apache2/conf.d/ssl.conf 
+  sed -i 's/#LoadModule rewrite_module/LoadModule rewrite_module/g' /etc/apache2/conf.d/ssl.conf
 
 # configure apache2
 RUN mkdir -p /run/apache2/ && \
