@@ -38,5 +38,5 @@ if [ ! -z "$MIGRATE_FROM" ]; then
 fi
 
 # active plugins
-wp plugin activate jetpack wp-super-cache akismet
+wp plugin activate wp-super-cache akismet
 wp theme activate events.pozoga.eu
