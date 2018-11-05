@@ -4,10 +4,10 @@ USER 0
 
 # install wordpress
 RUN cd ~ && \
-  wget https://pl.wordpress.org/wordpress-4.9.6-pl_PL.zip && \
-  unzip wordpress-4.9.6-pl_PL.zip && \
+  wget https://pl.wordpress.org/wordpress-4.9.8-pl_PL.zip && \
+  unzip wordpress-4.9.8-pl_PL.zip && \
   mv wordpress /app && \
-  rm wordpress-4.9.6-pl_PL.zip && \
+  rm wordpress-4.9.8-pl_PL.zip && \
   rm -rf wordpress
 
 WORKDIR /app
